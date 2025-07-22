@@ -1,0 +1,7 @@
+com\example\katasgbankaccount\model\Transaction.class
+com\example\katasgbankaccount\service\StatementPrinter.class
+com\example\katasgbankaccount\service\AccountService.class
+com\example\katasgbankaccount\model\BankAccount.class
+com\example\katasgbankaccount\KatasgbankaccountApplication.class
+com\example\katasgbankaccount\controller\AccountController.class
+com\example\katasgbankaccount\model\Statement.class
