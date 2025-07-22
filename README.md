@@ -12,7 +12,7 @@ Les comptes bancaires sont stockés en mémoire vive et ne sont pas persistés.
 ```
 git clone https://github.com/rbreuvart/katasgbankaccountjava.git
 
-nvm install
+mvn install
 
 execute : KatasgbankaccountApplication.java
 ```
@@ -26,9 +26,3 @@ http://localhost:8080/swagger-ui/
 
 ![diag](https://github.com/rbreuvart/katasgbankaccount/blob/main/docs/exemple.gif?raw=true "diagramme")
 
-
-
-## Test
-```
-npm test
-```
