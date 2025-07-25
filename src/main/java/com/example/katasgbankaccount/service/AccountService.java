@@ -4,6 +4,7 @@ import com.example.katasgbankaccount.model.BankAccount;
 import com.example.katasgbankaccount.model.Transaction;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +29,12 @@ public class AccountService {
         if (account == null) {
             throw new IllegalArgumentException("Account not found.");
         }
-        account.deposit(amount);
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Deposit amount must be positive.");
+        }
+        double newBalance = account.getBalance() + amount;
+        account.setBalance(newBalance);
+        account.getStatement().addTransaction(new Transaction(LocalDateTime.now(), amount, newBalance));
     }
 
     public void withdraw(String accountNumber, double amount) {
@@ -36,7 +42,15 @@ public class AccountService {
         if (account == null) {
             throw new IllegalArgumentException("Account not found.");
         }
-        account.withdraw(amount);
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdrawal amount must be positive.");
+        }
+        if (account.getBalance() < amount) {
+            throw new IllegalArgumentException("Insufficient funds.");
+        }
+        double newBalance = account.getBalance() - amount;
+        account.setBalance(newBalance);
+        account.getStatement().addTransaction(new Transaction(LocalDateTime.now(), -amount, newBalance));
     }
 
     public List<Transaction> getHistory(String accountNumber) {
@@ -45,5 +59,16 @@ public class AccountService {
             throw new IllegalArgumentException("Account not found.");
         }
         return account.getHistory();
+    }
+
+    public void deleteAccount(String accountNumber) {
+        BankAccount account = getAccount(accountNumber);
+        if (account == null) {
+            throw new IllegalArgumentException("Account not found.");
+        }
+        if (account.getBalance() != 0) {
+            throw new IllegalStateException("Cannot delete account with non-zero balance.");
+        }
+        accounts.remove(accountNumber);
     }
 }

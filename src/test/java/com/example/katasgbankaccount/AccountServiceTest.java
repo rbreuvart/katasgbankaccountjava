@@ -43,4 +43,11 @@ class AccountServiceTest {
         accountService.withdraw("12345", 50);
         assertEquals(2, accountService.getHistory("12345").size());
     }
+
+    @Test
+    void testDeleteAccount() {
+        accountService.createAccount("12345");
+        accountService.deleteAccount("12345");
+        assertNull(accountService.getAccount("12345"));
+    }
 }

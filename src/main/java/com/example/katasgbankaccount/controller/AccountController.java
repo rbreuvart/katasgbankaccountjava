@@ -82,4 +82,16 @@ public class AccountController {
             @ApiParam(value = "Account Number to print statement for", required = true) @PathVariable String accountNumber) {
         return ResponseEntity.ok(statementPrinter.printStatement(accountService.getAccount(accountNumber)));
     }
+
+    @DeleteMapping("/{accountNumber}")
+    @ApiOperation(value = "Delete a bank account", response = String.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully deleted account"),
+            @ApiResponse(code = 400, message = "Bad request")
+    })
+    public ResponseEntity<String> deleteAccount(
+            @ApiParam(value = "Account Number to delete", required = true) @PathVariable String accountNumber) {
+        accountService.deleteAccount(accountNumber);
+        return ResponseEntity.ok("Account deleted successfully.");
+    }
 }
